@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node .",
+    "dev": "cross-env NODE_ENV=development nodemon .",
+    "dev:prod": "cross-env NODE_ENV=production nodemon ."
+  },
+  "author": "Gilad",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "chalk": "^4.1.1",
+    "config": "^4.1.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "joi": "^18.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.17.1",
+    "morgan": "^1.10.1"
+  },
+  "description": "BCards Backend API - A Node.js/Express server for business card management with MongoDB"
+}

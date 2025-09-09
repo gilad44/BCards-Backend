@@ -1,0 +1,9 @@
+{
+  "NODE_ENV": "production",
+  "PORT": 9191,
+  "TOKEN_GENERATOR": "jwt",
+  "DB_NAME": "your-mongodb-atlas-connection-string-here",
+  "DB_PASSWORD": "your-database-password-here",
+  "LOGGER": "morgan",
+  "DB": "MONGODB"
+}
