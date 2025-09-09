@@ -39,8 +39,8 @@ Contains production environment settings. **This file is not included in the rep
      "NODE_ENV": "production",
      "PORT": 9191,
      "TOKEN_GENERATOR": "jwt",
-     "DB_NAME": "mongodb+srv://username:password@cluster.mongodb.net/BCards",
-     "DB_PASSWORD": "your-actual-password",
+     "DB_NAME": "mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/BCards",
+     "DB_PASSWORD": "REPLACE_WITH_YOUR_ACTUAL_PASSWORD",
      "LOGGER": "morgan",
      "DB": "MONGODB"
    }
