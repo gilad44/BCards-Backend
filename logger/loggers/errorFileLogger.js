@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const moment = require("moment-timezone");
 
 const ensureLogsDirectory = () => {
   const logsDir = path.join(__dirname, "../../logs");
@@ -9,16 +10,10 @@ const ensureLogsDirectory = () => {
   return logsDir;
 };
 
+const TIMEZONE = "Asia/Jerusalem"; // Change to your desired timezone
 const generateLogFileName = () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-  const seconds = String(now.getSeconds()).padStart(2, "0");
-
-  return `${year}-${month}-${day}_${hours}-${minutes}-${seconds}.log`;
+  const now = moment().tz(TIMEZONE);
+  return `${now.format("YYYY-MM-DD_HH-mm-ss")}.log`;
 };
 
 const parseErrorMessage = (errorMessage, statusCode, method, url) => {
@@ -27,42 +22,70 @@ const parseErrorMessage = (errorMessage, statusCode, method, url) => {
   let userFriendlyMessage = "";
   let technicalDetails = errorMessage;
 
+  // Normalize error message for case-insensitive matching
+  const msg = (errorMessage || "").toLowerCase();
+
   // Parse different types of errors
-  if (errorMessage.includes("Cast to ObjectId failed")) {
+  if (msg.includes("cast to objectid failed")) {
     category = "Invalid ID Format";
     description =
       "The provided ID is not in the correct MongoDB ObjectId format";
     userFriendlyMessage =
       "The ID you provided is invalid. MongoDB IDs should be 24 characters long.";
-  } else if (errorMessage.includes("User already registered")) {
+  } else if (msg.includes("user already registered")) {
     category = "Duplicate User";
     description = "Attempted to register with an email that already exists";
     userFriendlyMessage = "A user with this email address already exists.";
-  } else if (errorMessage.includes("Card already exists")) {
+  } else if (msg.includes("card already exists")) {
     category = "Duplicate Card";
     description = "Attempted to create a card that already exists";
     userFriendlyMessage = "A card with this email already exists.";
-  } else if (errorMessage.includes("Invalid email or password")) {
+  } else if (msg.includes("invalid email or password")) {
     category = "Authentication Failed";
     description = "Login attempt with incorrect credentials";
     userFriendlyMessage = "The email or password provided is incorrect.";
-  } else if (errorMessage.includes("Authentication Error")) {
-    category = "Authorization Failed";
-    description = "Request made without proper authentication token";
-    userFriendlyMessage = "You must be logged in to access this resource.";
-  } else if (errorMessage.includes("Authorization Error")) {
+  } else if (
+    msg.includes("authentication error") ||
+    msg.includes("unauthorized") ||
+    msg.includes("jwt") ||
+    msg.includes("token")
+  ) {
+    // Distinguish between missing/invalid token and forbidden
+    if (msg.includes("forbidden")) {
+      category = "Access Forbidden";
+      description = "User lacks proper permissions for this action";
+      userFriendlyMessage = "You are not authorized to perform this action.";
+    } else if (msg.includes("expired")) {
+      category = "Token Expired";
+      description = "Authentication token has expired";
+      userFriendlyMessage = "Your session has expired. Please log in again.";
+    } else if (msg.includes("jwt malformed") || msg.includes("invalid token")) {
+      category = "Invalid Token";
+      description = "Authentication token is invalid or malformed";
+      userFriendlyMessage =
+        "Invalid authentication token. Please log in again.";
+    } else if (msg.includes("unauthorized")) {
+      category = "Authentication Failed";
+      description = "Unauthorized user or invalid credentials";
+      userFriendlyMessage = "You are not authorized to perform this action.";
+    } else {
+      category = "Authorization Failed";
+      description = "Request made without proper authentication token";
+      userFriendlyMessage = "You must be logged in to access this resource.";
+    }
+  } else if (msg.includes("authorization error")) {
     category = "Permission Denied";
     description = "User does not have permission to perform this action";
     userFriendlyMessage = "You don't have permission to perform this action.";
-  } else if (errorMessage.includes("Only business users can create cards")) {
+  } else if (msg.includes("only business users can create cards")) {
     category = "Business User Required";
     description = "Non-business user attempted to create a business card";
     userFriendlyMessage = "Only business users can create business cards.";
-  } else if (errorMessage.includes("Route not found")) {
+  } else if (msg.includes("route not found")) {
     category = "Invalid Endpoint";
     description = "Request made to a non-existent API endpoint";
     userFriendlyMessage = "The requested URL does not exist.";
-  } else if (errorMessage.includes("validation failed")) {
+  } else if (msg.includes("validation failed")) {
     category = "Validation Error";
     description = "Request data does not meet validation requirements";
     userFriendlyMessage = "The data you provided is invalid or incomplete.";
@@ -155,7 +178,7 @@ const writeErrorLog = (req, res, status, errorMessage) => {
       counter++;
     }
 
-    const requestDate = new Date().toISOString();
+    const requestDate = moment().tz(TIMEZONE).format("YYYY-MM-DD HH:mm:ss");
     const { action, resource } = getActionContext(
       req.method,
       req.originalUrl || req.url
