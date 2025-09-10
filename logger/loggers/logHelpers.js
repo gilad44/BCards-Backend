@@ -4,7 +4,7 @@ const moment = require("moment-timezone");
 
 // Get system timezone dynamically
 const getSystemTimezone = () => {
-  return moment.tz.guess() || "UTC"; // Falls back to UTC if unable to detect
+  return moment.tz.guess() || "UTC";
 };
 
 const ensureLogsDirectory = () => {

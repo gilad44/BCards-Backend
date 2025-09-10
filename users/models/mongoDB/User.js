@@ -29,7 +29,6 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    // Removed regex validation to allow hashed passwords
   },
   image: Image,
   address: Address,
