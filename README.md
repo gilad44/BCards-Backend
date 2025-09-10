@@ -1,6 +1,6 @@
 # 🃏 BCards Backend API
 
-A RESTful API server for the BCards business card management system. Built with Node.js, Express, and MongoDB, providing secure authentication, user management, and business card operations.
+A RESTful API server for business card management. Built with Node.js, Express, and MongoDB, providing secure authentication, user management, and business card operations.
 
 ## 📋 Table of Contents
 
@@ -81,47 +81,36 @@ BCards Backend is a robust Node.js/Express API server that provides complete bus
 ## 📁 Project Structure
 
 ```
-BCards/
-├── Backend/                    # Node.js/Express API server
-│   ├── auth/                   # Authentication services
-│   │   ├── authService.js      # Auth middleware
-│   │   └── Providers/          # JWT provider
-│   ├── cards/                  # Card management module
-│   │   ├── models/             # Card data models
-│   │   ├── routes/             # Card API routes
-│   │   ├── services/           # Card business logic
-│   │   ├── validations/        # Card validation schemas
-│   │   └── helpers/            # Card utility functions
-│   ├── users/                  # User management module
-│   │   ├── models/             # User data models
-│   │   ├── routes/             # User API routes
-│   │   ├── services/           # User business logic
-│   │   ├── validations/        # User validation schemas
-│   │   └── helpers/            # User utility functions
-│   ├── config/                 # Environment configurations
-│   │   ├── default.json        # Default config
-│   │   ├── development.json    # Development config
-│   │   └── production.json     # Production config
-│   ├── DB/                     # Database connection
-│   ├── initialData/            # Seed data
-│   ├── logger/                 # Logging services
-│   ├── middleware/             # Custom middleware
-│   ├── router/                 # Main router
-│   ├── utils/                  # Utility functions
-│   └── server.js               # Application entry point
-│
-└── Frontend/                   # React TypeScript application
-    ├── src/
-    │   ├── components/         # Reusable components
-    │   ├── pages/              # Page components
-    │   ├── types/              # TypeScript type definitions
-    │   ├── hooks/              # Custom React hooks
-    │   ├── store/              # Redux store configuration
-    │   ├── slices/             # Redux slices
-    │   ├── styles/             # CSS and styling
-    │   └── validations/        # Form validation schemas
-    ├── public/                 # Static assets
-    └── package.json            # Frontend dependencies
+BCards-Backend/                 # Node.js/Express API server
+├── auth/                       # Authentication services
+│   ├── authService.js          # Auth middleware
+│   └── Providers/              # JWT provider
+├── cards/                      # Card management module
+│   ├── models/                 # Card data models
+│   ├── routes/                 # Card API routes
+│   ├── services/               # Card business logic
+│   ├── validations/            # Card validation schemas
+│   └── helpers/                # Card utility functions
+├── users/                      # User management module
+│   ├── models/                 # User data models
+│   ├── routes/                 # User API routes
+│   ├── services/               # User business logic
+│   ├── validations/            # User validation schemas
+│   └── helpers/                # User utility functions
+├── config/                     # Environment configurations
+│   ├── default.json            # Default config
+│   ├── development.json        # Development config
+│   └── production.json.example # Production config template
+├── DB/                         # Database connection
+├── initialData/                # Seed data
+├── logger/                     # Logging services
+├── middleware/                 # Custom middleware
+├── router/                     # Main router
+├── utils/                      # Utility functions
+├── .gitignore                  # Git ignore rules
+├── CONFIG_SETUP.md             # Configuration guide
+├── package.json                # Dependencies and scripts
+└── server.js                   # Application entry point
 ```
 
 ## 🚀 Installation
@@ -136,20 +125,12 @@ BCards/
 
 ```bash
 git clone <repository-url>
-cd BCards
+cd BCards-Backend
 ```
 
-### 2. Install Backend Dependencies
+### 2. Install Dependencies
 
 ```bash
-cd Backend
-npm install
-```
-
-### 3. Install Frontend Dependencies
-
-```bash
-cd ../Frontend
 npm install
 ```
 
@@ -162,7 +143,7 @@ The backend uses `node-config` for environment management.
 **📋 Quick Setup:**
 
 1. For development: Configuration is ready (uses local MongoDB)
-2. For production: See `Backend/CONFIG_SETUP.md` for detailed setup instructions
+2. For production: See `CONFIG_SETUP.md` for detailed setup instructions
 
 **🔐 Security Note:**
 The production config file is not included in this repository for security. You'll need to create it based on the example provided.
@@ -173,41 +154,20 @@ The production config file is not included in this repository for security. You'
 - `config/default.json` - JWT secret (update before use)
 - `config/production.json` - Production settings (create from example)
 
-**For detailed configuration instructions, see: `Backend/CONFIG_SETUP.md`**
+**For detailed configuration instructions, see: `CONFIG_SETUP.md`**
 
 ## 🏃‍♂️ Running the Application
 
 ### Development Mode
 
-#### Start Backend (Development)
-
 ```bash
-cd Backend
 npm run dev          # Runs on http://localhost:8181
-```
-
-#### Start Frontend (Development)
-
-```bash
-cd Frontend
-npm run dev          # Runs on http://localhost:5173
 ```
 
 ### Production Mode
 
-#### Start Backend (Production)
-
 ```bash
-cd Backend
 npm start            # Runs on http://localhost:9191
-```
-
-#### Build and Serve Frontend
-
-```bash
-cd Frontend
-npm run build
-npm run preview
 ```
 
 ## 📚 API Documentation
@@ -403,19 +363,14 @@ taskkill /PID <PID> /F
 
 #### 4. CORS Issues
 
-- Frontend origin is configured in `Backend/middleware/cors.js`
-- Default allowed origins: `http://localhost:5173`, `http://127.0.0.1:5500`
+- Client origins are configured in `middleware/cors.js`
+- Default allowed origins: `http://localhost:3000`, `http://127.0.0.1:5500`
 
 ### Debug Mode
 
 ```bash
-# Backend debug mode
-cd Backend
+# Debug mode
 DEBUG=* npm run dev
-
-# Frontend debug mode
-cd Frontend
-npm run dev -- --debug
 ```
 
 ## 🤝 Contributing
@@ -429,7 +384,6 @@ npm run dev -- --debug
 ### Code Style
 
 - Follow ESLint configuration
-- Use TypeScript for frontend development
 - Write meaningful commit messages
 - Add comments for complex logic
 
