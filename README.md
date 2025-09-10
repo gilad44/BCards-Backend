@@ -4,19 +4,19 @@ A RESTful API server for business card management. Built with Node.js, Express, 
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Running the Server](#running-the-server)
-- [API Documentation](#api-documentation)
-- [User Roles](#user-roles)
-- [Default Credentials](#default-credentials)
-- [Database Schema](#database-schema)
-- [Environment Variables](#environment-variables)
-- [Troubleshooting](#troubleshooting)
+- [🎯 Overview](#-overview)
+- [✨ Features](#-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Installation](#-installation)
+- [⚙️ Configuration](#️-configuration)
+- [🏃‍♂️ Running the Application](#️-running-the-application)
+- [📚 API Documentation](#-api-documentation)
+- [👥 User Roles](#-user-roles)
+- [🔑 Default Credentials](#-default-credentials)
+- [🗄️ Database Schema](#️-database-schema)
+- [🌍 Environment Variables](#-environment-variables)
+- [🐛 Troubleshooting](#-troubleshooting)
 
 ## 🎯 Overview
 
